@@ -1,10 +1,10 @@
 'use client'
 
-
+import Link from "next/link";
 import { useState, useEffect, } from "react";
 import { firestore } from "@/firebase"
 import { Box, Button, Container, Modal, Stack, TextField, Typography } from "@mui/material";
-import { Delete, Add } from "@mui/icons-material";
+import { Delete, Add, CameraAlt, Collections } from "@mui/icons-material";
 import { collection, deleteDoc, doc, getDoc, getDocs, query, setDoc } from "firebase/firestore";
 
 export default function Home() {
@@ -81,10 +81,12 @@ export default function Home() {
         </Box>
       </Modal>
       <Typography className="text-4xl sm:text-8xl py-2" variant="h1" align="center">Pantry Tracker</Typography>
-      <div className="w-full flex justify-center py-2">
+      <div className="w-full flex justify-center items-center gap-2 py-2">
         <Button variant="contained" onClick={() => {
           handleOpen()
         }}>Add new item</Button>
+        <Link href="/photo-pantry"><CameraAlt/></Link>
+        <Link href="/photo-pantry"><Collections/></Link>
       </div>
       <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" border="2px solid #333" borderRadius={4} padding={1} gap={2}>
         <Stack className="flex flex-col sm:flex-row mt-2" maxWidth="730px" direction="row" overflow="auto" gap={1}>
