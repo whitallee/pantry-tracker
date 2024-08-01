@@ -85,12 +85,12 @@ export default function Home() {
         <Button variant="contained" onClick={() => {
           handleOpen()
         }}>Add new item</Button>
-        <Link href="/photo-pantry"><CameraAlt/></Link>
+        <Link href="/upload"><CameraAlt/></Link>
         <Link href="/photo-pantry"><Collections/></Link>
       </div>
       <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" border="2px solid #333" borderRadius={4} padding={1} gap={2}>
         <Stack className="flex flex-col sm:flex-row mt-2" maxWidth="730px" direction="row" overflow="auto" gap={1}>
-          <TextField className="bg-white rounded-lg" variant="outlined" fullWidth placeholder="Search pantry" value={searchBarQuery} onChange={(e) => {
+          <TextField className="bg-white rounded-[4px]" variant="outlined" fullWidth placeholder="Search pantry" value={searchBarQuery} onChange={(e) => {
               setSearchBarQuery(e.target.value)
               if (searchBarQuery.length > 0){
                 setSearchInventory(inventory.filter((item) => {
@@ -100,7 +100,7 @@ export default function Home() {
                 setSearchInventory(inventory)
               }
             }}/>
-          <Button className="text-nowrap rounded-lg w-full" variant="contained" onClick={() => {
+          <Button className="text-nowrap rounded-[4px] w-full" variant="contained" onClick={() => {
               setSearchBarQuery("")
               setSearchInventory(inventory)
             }}>Clear Search</Button>
