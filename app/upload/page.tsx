@@ -23,8 +23,15 @@ export default function Upload() {
         setFile(event.target.files[0])
     }
 
+    const handlePhotoTaken = (photoTaken: any) => {
+        setFile(photoTaken)
+    }
+
     const handleUpload = async () => {
-        if (!file) return
+        if (!file) {
+            console.log("No file")
+            return
+        }
 
         setUploading(true)
         // @ts-ignore
@@ -43,6 +50,14 @@ export default function Upload() {
         }
     }
 
+    const photoPlaceHolder = (photoSrc: any) => {
+        if (!photoSrc) {
+            return ("/groceriesImagePlaceholder.jpg")
+        } else {
+            return (photo)
+        }
+    }
+
     return (
         <Container className="flex flex-col gap-2 justify-center items-center">
             <Typography className="text-4xl sm:text-8xl py-2" variant="h1" align="center">Pantry Tracker</Typography>
@@ -51,18 +66,24 @@ export default function Upload() {
                 <button className="border-2 border-solid border-white p-2 rounded-md" onClick={handleUpload} disabled={uploading}>
                     {uploading ? "Uploading..." : "Upload Image"}
                 </button>
-                <button className="border-2 border-solid border-white p-2 rounded-md">
-                    Take a Picture
-                </button>
-                
             </div>
             <div>
-                {/* @ts-ignore */}
-                <Camera ref={camera} aspectRatio={1/1}/>
-                {/* @ts-ignore */}
-                <button onClick={() => setPhoto(camera.current.takePhoto())}>Take photo</button>
-                {/* @ts-ignore */}
-                <img src={photo} alt='Taken photo' onChange={handleFileChange}/>
+                <div>
+                    {/* @ts-ignore */}
+                    <Camera ref={camera} aspectRatio={1/1}/>
+                    <Image className="absolute z-10010 scale-[175%]" src={"/cameraFrame.png"} alt="camera frame" width={300} height={300}/>
+                </div>
+                <div className="w-[300px]">
+                    <Image className="absolute z-10010 scale-[175%]" src={"/cameraFrame.png"} alt="camera frame" width={300} height={300}/>
+                    {/* @ts-ignore */}
+                    <img src={photoPlaceHolder(photo)} alt='Taken photo' className="w-[300px]" onChange={handleFileChange}/>
+                </div>
+                <button className="border-2 border-solid border-white p-2 rounded-md" onClick={() => {
+                    {/* @ts-ignore */}
+                    setPhoto(camera.current.takePhoto())
+                    handlePhotoTaken(photo)
+                }}>Capture Photo</button>
+                
             </div>
             { uploadedUrl && (
                 <div>
