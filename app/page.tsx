@@ -67,6 +67,8 @@ export default function Home() {
   
   return (
     <Container>
+
+      {/* Modal for adding an item */}
       <Modal open={open} onClose={handleClose}>
         <Box sx={{transform: "translate(-50%, -50%)"}} position="absolute" top="50%" left="50%" width={400} bgcolor="white" border="2px solid #000000" boxShadow={24} p={4} display="flex" flexDirection="column" gap={3} borderRadius={3}>
           <Typography variant="h6" color="black" width="100%" textAlign="center">Add Item</Typography>
@@ -80,13 +82,12 @@ export default function Home() {
           </Stack>
         </Box>
       </Modal>
-      <Typography className="text-4xl sm:text-8xl py-2" variant="h1" align="center">Pantry Tracker</Typography>
-      <div className="w-full flex justify-center items-center gap-2 py-2">
+
+
+      <div className="flex w-full items-center justify-center p-2">
         <Button variant="contained" onClick={() => {
           handleOpen()
         }}>Add new item</Button>
-        <Link href="/upload"><CameraAlt/></Link>
-        <Link href="/photo-pantry"><Collections/></Link>
       </div>
       <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" border="2px solid #333" borderRadius={4} padding={1} gap={2}>
         <Stack className="flex flex-col sm:flex-row mt-2" maxWidth="730px" direction="row" overflow="auto" gap={1}>

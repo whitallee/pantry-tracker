@@ -1,53 +1,41 @@
 'use client'
 
 import Image from "next/image"
-import { useState } from "react"
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
+import { useEffect, useState } from "react"
+import { ref, getDownloadURL, listAll } from "firebase/storage"
 import { storage } from "@/firebase"
-import { Container } from "@mui/material"
+import { Container, Typography, Button } from "@mui/material"
 
 export default function PhotoPantry() {
 
-    const [file, setFile] = useState(null)
-    const [uploading, setUploading] = useState(false)
-    const [uploadedUrl, setUploadedUrl]: any = useState(null)
+    const [images, setImages]: any = useState([])
 
-    const handleFileChange = (event: any) => {
-        setFile(event.target.files[0])
-    }
+    useEffect(() => {
+        const fetchImages = async () => {
+            const imagesRef = ref(storage, "images/")
 
-    const handleUpload = async () => {
-        if (!file) return
-
-        setUploading(true)
-        // @ts-ignore
-        const filePath = 'images/' + file.name
-        const storageRef = ref(storage, filePath)
-
-        try {
-            await uploadBytes(storageRef, file)
-            const url = await getDownloadURL(storageRef)
-            setUploadedUrl(url)
-            console.log("File loaded successfully")
-        } catch (error) {
-            console.error("Error uploading the file", error)
-        } finally {
-            setUploading(false)
+            try {
+                const result = await listAll(imagesRef)
+                const urls = await Promise.all(result.items.map(item => getDownloadURL(item)))
+                setImages(urls)
+            } catch (error) {
+                console.error("Error fetching images", error)
+            }
         }
-    }
+
+        fetchImages()
+    }, []);
 
     return (
         <Container className="flex flex-col gap-2 justify-center items-center h-screen">
-            <input className="border-2 border-solid border-white p-2 rounded-md" type="file" onChange={handleFileChange}></input>
-            <button className="border-2 border-solid border-white p-2 rounded-md" onClick={handleUpload} disabled={uploading}>
-                {uploading ? "Uploading..." : "Upload Image"}
-            </button>
-            { uploadedUrl && (
-                <div>
-                    <p>Uploaded Image:</p>
-                    <Image className="w-80 h-80 object-cover" src={uploadedUrl} alt="Uploaded Image" width={300} height={300}/>
-                </div>
-            )}
+            <Typography className="text-4xl sm:text-8xl py-2" variant="h1" align="center">Photo Pantry</Typography>
+            <div className="grid gap-2">
+                {images.map((url: string, index: number) =>
+                    <div key={url} className="">
+                        <Image src={url} alt={"Image " + index} width={300} height={300} />
+                    </div>
+                )}
+            </div>
         </Container>
     )
 }
