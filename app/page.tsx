@@ -1,10 +1,10 @@
 'use client'
 
-
+import Link from "next/link";
 import { useState, useEffect, } from "react";
 import { firestore } from "@/firebase"
 import { Box, Button, Container, Modal, Stack, TextField, Typography } from "@mui/material";
-import { Delete, Add } from "@mui/icons-material";
+import { Delete, Add, CameraAlt, Collections } from "@mui/icons-material";
 import { collection, deleteDoc, doc, getDoc, getDocs, query, setDoc } from "firebase/firestore";
 
 export default function Home() {
@@ -67,6 +67,8 @@ export default function Home() {
   
   return (
     <Container>
+
+      {/* Modal for adding an item */}
       <Modal open={open} onClose={handleClose}>
         <Box sx={{transform: "translate(-50%, -50%)"}} position="absolute" top="50%" left="50%" width={400} bgcolor="white" border="2px solid #000000" boxShadow={24} p={4} display="flex" flexDirection="column" gap={3} borderRadius={3}>
           <Typography variant="h6" color="black" width="100%" textAlign="center">Add Item</Typography>
@@ -80,15 +82,16 @@ export default function Home() {
           </Stack>
         </Box>
       </Modal>
-      <Typography className="text-4xl sm:text-8xl py-2" variant="h1" align="center">Pantry Tracker</Typography>
-      <div className="w-full flex justify-center py-2">
+
+
+      <div className="flex w-full items-center justify-center p-2">
         <Button variant="contained" onClick={() => {
           handleOpen()
         }}>Add new item</Button>
       </div>
       <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" border="2px solid #333" borderRadius={4} padding={1} gap={2}>
         <Stack className="flex flex-col sm:flex-row mt-2" maxWidth="730px" direction="row" overflow="auto" gap={1}>
-          <TextField className="bg-white rounded-lg" variant="outlined" fullWidth placeholder="Search pantry" value={searchBarQuery} onChange={(e) => {
+          <TextField className="bg-white rounded-[4px]" variant="outlined" fullWidth placeholder="Search pantry" value={searchBarQuery} onChange={(e) => {
               setSearchBarQuery(e.target.value)
               if (searchBarQuery.length > 0){
                 setSearchInventory(inventory.filter((item) => {
@@ -98,7 +101,7 @@ export default function Home() {
                 setSearchInventory(inventory)
               }
             }}/>
-          <Button className="text-nowrap rounded-lg w-full" variant="contained" onClick={() => {
+          <Button className="text-nowrap rounded-[4px] w-full" variant="contained" onClick={() => {
               setSearchBarQuery("")
               setSearchInventory(inventory)
             }}>Clear Search</Button>
