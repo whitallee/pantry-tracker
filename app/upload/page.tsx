@@ -132,9 +132,6 @@ export default function Upload() {
                 <button className="border-2 border-solid border-white p-2 rounded-md w-fit mx-auto" onClick={handlePhotoUpload} disabled={photoUploading && !photo}>
                     {!photo ? "No photo taken " : uploading ? "Uploading..." : "Upload Photo"}
                 </button>
-                <button className="border-2 border-solid border-white p-2 rounded-md w-fit mx-auto" onClick={() => console.log(photo)}>
-                    Console Log Photo
-                </button>
             </div>     
 
         </Container>
